@@ -40,7 +40,7 @@ class Actor(models.Model):
 
 def movie_image_file_path(movie, filename) -> str:
     _, ext = os.path.splitext(filename)
-    filename = f"{slugify(movie.title)}-{uuid}{ext}"
+    filename = f"{slugify(movie.title)}-{uuid.uuid4()}{ext}"
     return os.path.join("uploads/movie/", filename)
 
 
@@ -50,7 +50,11 @@ class Movie(models.Model):
     duration = models.IntegerField()
     genres = models.ManyToManyField(Genre)
     actors = models.ManyToManyField(Actor)
-    image = models.ImageField(upload_to=movie_image_file_path, null=True, blank=True)
+    image = models.ImageField(
+        upload_to=movie_image_file_path,
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         ordering = ["title"]
@@ -107,9 +111,9 @@ class Ticket(models.Model):
                 raise error_to_raise(
                     {
                         ticket_attr_name: f"{ticket_attr_name} "
-                                          f"number must be in available range: "
-                                          f"(1, {cinema_hall_attr_name}): "
-                                          f"(1, {count_attrs})"
+                        f"number must be in available range: "
+                        f"(1, {cinema_hall_attr_name}): "
+                        f"(1, {count_attrs})"
                     }
                 )
 
@@ -135,7 +139,7 @@ class Ticket(models.Model):
 
     def __str__(self):
         return (
-            f"{str(self.movie_session)} (row: {self.row},"
+            f"{str(self.movie_session)} (row: {self.row}, "
             f" seat: {self.seat})"
         )
 
