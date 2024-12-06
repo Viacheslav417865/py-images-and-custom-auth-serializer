@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('cinema', '0002_movie_image'),
     ]
@@ -18,6 +17,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='movie',
             name='image',
-            field=models.ImageField(blank=True, null=True, upload_to=cinema.models.movie_image_file_path),
+            field=models.ImageField(
+                blank=True,
+                null=True,
+                upload_to=cinema.models.movie_image_file_path
+            ),
         ),
     ]

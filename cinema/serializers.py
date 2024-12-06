@@ -1,6 +1,5 @@
 from django.db import transaction
 from rest_framework import serializers
-
 from cinema.models import (
     Genre,
     Actor,
@@ -35,7 +34,7 @@ class MovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = [
+        fields = (
             "id",
             "title",
             "description",
@@ -43,7 +42,7 @@ class MovieSerializer(serializers.ModelSerializer):
             "genres",
             "actors",
             "image"
-        ]
+        )
 
 
 class MovieListSerializer(MovieSerializer):
@@ -61,7 +60,7 @@ class MovieDetailSerializer(MovieSerializer):
 
     class Meta:
         model = Movie
-        fields = [
+        fields = (
             "id",
             "title",
             "description",
@@ -69,7 +68,7 @@ class MovieDetailSerializer(MovieSerializer):
             "genres",
             "actors",
             "image"
-        ]
+        )
 
 
 class MovieImageSerializer(serializers.ModelSerializer):
@@ -81,7 +80,7 @@ class MovieImageSerializer(serializers.ModelSerializer):
 class MovieSessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = MovieSession
-        fields = ("id", "show_time", "movie", "cinema_hall",)
+        fields = ("id", "show_time", "movie", "cinema_hall")
 
 
 class MovieSessionListSerializer(MovieSessionSerializer):
@@ -114,9 +113,7 @@ class TicketSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         data = super(TicketSerializer, self).validate(attrs=attrs)
         Ticket.validate_ticket(
-            attrs["row"],
-            attrs["seat"],
-            attrs["movie_session"]
+            attrs["row"], attrs["seat"], attrs["movie_session"]
         )
         return data
 
